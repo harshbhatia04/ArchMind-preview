@@ -1,0 +1,1144 @@
+{
+    "system_name":  "perplexity_external_submission",
+    "system_type":  "model",
+    "created_at":  "2026-07-01T074834Z",
+    "provenance":  {
+                       "independent_external":  true,
+                       "submitted_by":  "Perplexity",
+                       "method_note":  "Completed by Perplexity using only the uploaded ArchBench-R v2 external packet text file and no private gold file.",
+                       "private_gold_used":  false
+                   },
+    "answers":  [
+                    {
+                        "id":  "paper_deepseek_v3",
+                        "source_titles":  [
+                                              "DeepSeek-V3 Technical Report"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "Transformer",
+                                                    "multi-head latent attention",
+                                                    "sparse experts",
+                                                    "multi-token prediction"
+                                                ],
+                        "comparison_axes":  [
+                                                "backbone",
+                                                "routing",
+                                                "training objective",
+                                                "inference efficiency"
+                                            ],
+                        "novelty_terms":  [
+                                              "hybrid",
+                                              "MoE",
+                                              "latent attention",
+                                              "multi-token prediction"
+                                          ],
+                        "weaknesses":  [
+                                           "complex large-scale engineering",
+                                           "routing stability",
+                                           "precision sensitivity",
+                                           "infrastructure sensitivity"
+                                       ],
+                        "experiments":  [
+                                            "baseline comparison against dense Transformer",
+                                            "ablation of sparse experts",
+                                            "ablation of multi-token prediction",
+                                            "routing stability probe"
+                                        ],
+                        "modules":  [
+                                        "token embedding",
+                                        "attention stack",
+                                        "expert routing",
+                                        "prediction head"
+                                    ],
+                        "prototype":  "PyTorch-style skeleton with dense stem, latent-attention blocks, MoE router, and multi-token prediction head."
+                    },
+                    {
+                        "id":  "paper_jamba",
+                        "source_titles":  [
+                                              "Jamba A Hybrid Transformer-Mamba Language Model"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "Transformer attention",
+                                                    "Mamba state-space layers",
+                                                    "sparse experts"
+                                                ],
+                        "comparison_axes":  [
+                                                "backbone",
+                                                "sequence efficiency",
+                                                "long-context handling",
+                                                "ablation surface"
+                                            ],
+                        "novelty_terms":  [
+                                              "hybrid",
+                                              "Mamba",
+                                              "long-context efficiency",
+                                              "sparse experts"
+                                          ],
+                        "weaknesses":  [
+                                           "many interacting design choices",
+                                           "harder ablation surface than pure backbones"
+                                       ],
+                        "experiments":  [
+                                            "compare against pure Transformer",
+                                            "compare against pure Mamba",
+                                            "layer-order ablation",
+                                            "context-length scaling test"
+                                        ],
+                        "modules":  [
+                                        "attention block",
+                                        "Mamba block",
+                                        "expert router",
+                                        "LM head"
+                                    ],
+                        "prototype":  "Hybrid stack alternating attention, Mamba, and sparse expert blocks with evaluation hooks for long-context throughput."
+                    },
+                    {
+                        "id":  "paper_memgpt",
+                        "source_titles":  [
+                                              "MemGPT Towards LLMs as Operating Systems"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "working memory",
+                                                    "archival memory",
+                                                    "paging policy",
+                                                    "LLM controller"
+                                                ],
+                        "comparison_axes":  [
+                                                "memory management",
+                                                "context window usage",
+                                                "self-management reliability",
+                                                "retrieval policy"
+                                            ],
+                        "novelty_terms":  [
+                                              "agent memory",
+                                              "context management",
+                                              "paging",
+                                              "operating-system metaphor"
+                                          ],
+                        "weaknesses":  [
+                                           "memory policies can fail",
+                                           "requires reliable self-management"
+                                       ],
+                        "experiments":  [
+                                            "memory write/read ablation",
+                                            "policy failure probe",
+                                            "long-horizon task benchmark",
+                                            "comparison with fixed-context baseline"
+                                        ],
+                        "modules":  [
+                                        "controller",
+                                        "short-term memory",
+                                        "long-term memory",
+                                        "page manager"
+                                    ],
+                        "prototype":  "Agent loop with memory pager that moves information between active context and archive, plus logging for retrieval accuracy."
+                    },
+                    {
+                        "id":  "paper_command_r",
+                        "source_titles":  [
+                                              "Command R Retrieval-Augmented Generation at Production Scale"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "retriever",
+                                                    "grounded generation model",
+                                                    "citation layer",
+                                                    "tool-using workflow"
+                                                ],
+                        "comparison_axes":  [
+                                                "retrieval quality",
+                                                "grounding",
+                                                "enterprise workflow fit",
+                                                "citation behavior"
+                                            ],
+                        "novelty_terms":  [
+                                              "production RAG",
+                                              "grounded context",
+                                              "citations",
+                                              "tool use"
+                                          ],
+                        "weaknesses":  [
+                                           "architecture details are less fully specified than open research papers",
+                                           "quality depends on retriever and corpus"
+                                       ],
+                        "experiments":  [
+                                            "retriever ablation",
+                                            "corpus quality test",
+                                            "citation correctness benchmark",
+                                            "tool-use success rate"
+                                        ],
+                        "modules":  [
+                                        "query encoder",
+                                        "document retriever",
+                                        "generator",
+                                        "citation formatter"
+                                    ],
+                        "prototype":  "RAG pipeline with retrieval, reranking, grounded decoding, and citation checks."
+                    },
+                    {
+                        "id":  "paper_self_rag",
+                        "source_titles":  [
+                                              "Self-RAG Learning to Retrieve, Generate, and Critique through Self-Reflection"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "retrieve decision module",
+                                                    "generator",
+                                                    "self-critique module"
+                                                ],
+                        "comparison_axes":  [
+                                                "when to retrieve",
+                                                "reflection quality",
+                                                "grounding",
+                                                "output critique"
+                                            ],
+                        "novelty_terms":  [
+                                              "self-reflection",
+                                              "retrieve-then-critique",
+                                              "grounded generation"
+                                          ],
+                        "weaknesses":  [
+                                           "requires specialized training data",
+                                           "reflection signals can be brittle"
+                                       ],
+                        "experiments":  [
+                                            "retrieve/no-retrieve ablation",
+                                            "reflection removal test",
+                                            "grounded QA benchmark",
+                                            "error-analysis on hallucinations"
+                                        ],
+                        "modules":  [
+                                        "retrieval policy",
+                                        "generator",
+                                        "critic",
+                                        "evidence selector"
+                                    ],
+                        "prototype":  "Self-RAG loop that gates retrieval, generates answers, and runs a critique pass before final output."
+                    },
+                    {
+                        "id":  "paper_lfm2",
+                        "source_titles":  [
+                                              "LFM2 Technical Report Efficient Mobile Foundation Models"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "hardware-aware hybrid layers",
+                                                    "short convolutions",
+                                                    "attention GQA blocks"
+                                                ],
+                        "comparison_axes":  [
+                                                "mobile efficiency",
+                                                "latency",
+                                                "memory use",
+                                                "capacity trade-off"
+                                            ],
+                        "novelty_terms":  [
+                                              "edge model",
+                                              "hardware-aware",
+                                              "hybrid layers",
+                                              "GQA"
+                                          ],
+                        "weaknesses":  [
+                                           "may trade off raw capacity",
+                                           "hardware-specific design choices",
+                                           "depends on distillation quality"
+                                       ],
+                        "experiments":  [
+                                            "latency benchmark",
+                                            "memory benchmark",
+                                            "distillation ablation",
+                                            "hardware-specific deployment test"
+                                        ],
+                        "modules":  [
+                                        "convolution block",
+                                        "GQA attention block",
+                                        "embedding layer",
+                                        "classifier head"
+                                    ],
+                        "prototype":  "Compact hybrid mobile model with profiling hooks for latency, memory, and accuracy on-device."
+                    },
+                    {
+                        "id":  "paper_recurrent_gemma",
+                        "source_titles":  [
+                                              "RecurrentGemma Moving Past Transformers for Efficient Open Language Models"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "Griffin recurrent architecture",
+                                                    "local attention",
+                                                    "recurrent inference path"
+                                                ],
+                        "comparison_axes":  [
+                                                "inference memory",
+                                                "latency",
+                                                "global interaction",
+                                                "deployment simplicity"
+                                            ],
+                        "novelty_terms":  [
+                                              "recurrent",
+                                              "efficient inference",
+                                              "Griffin",
+                                              "open language model"
+                                          ],
+                        "weaknesses":  [
+                                           "local attention may limit exact global interactions",
+                                           "less standard than Transformer deployment"
+                                       ],
+                        "experiments":  [
+                                            "memory footprint benchmark",
+                                            "latency benchmark",
+                                            "global dependency probe",
+                                            "comparison with Transformer baseline"
+                                        ],
+                        "modules":  [
+                                        "recurrent core",
+                                        "local attention block",
+                                        "state update",
+                                        "LM head"
+                                    ],
+                        "prototype":  "Recurrent language model skeleton with state carryover and evaluation hooks for memory and throughput."
+                    },
+                    {
+                        "id":  "paper_voyager",
+                        "source_titles":  [
+                                              "Voyager An Open-Ended and Embodied Agent with Large Language Models"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "LLM planner",
+                                                    "skill library",
+                                                    "environment feedback loop"
+                                                ],
+                        "comparison_axes":  [
+                                                "open-ended exploration",
+                                                "skill reuse",
+                                                "tool feedback",
+                                                "task progression"
+                                            ],
+                        "novelty_terms":  [
+                                              "embodied agent",
+                                              "skill acquisition",
+                                              "open-ended exploration"
+                                          ],
+                        "weaknesses":  [
+                                           "depends on environment feedback quality",
+                                           "skills can drift or accumulate errors"
+                                       ],
+                        "experiments":  [
+                                            "task progression benchmark",
+                                            "skill reuse ablation",
+                                            "feedback failure probe",
+                                            "long-horizon success rate"
+                                        ],
+                        "modules":  [
+                                        "planner",
+                                        "skill memory",
+                                        "executor",
+                                        "feedback monitor"
+                                    ],
+                        "prototype":  "Agent loop that plans actions, stores reusable skills, and updates based on environment feedback."
+                    },
+                    {
+                        "id":  "compare_retrieval_memory",
+                        "source_titles":  [
+                                              "Command R Retrieval-Augmented Generation at Production Scale",
+                                              "MemGPT Towards LLMs as Operating Systems",
+                                              "Self-RAG Learning to Retrieve, Generate, and Critique through Self-Reflection"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "retriever",
+                                                    "memory pager",
+                                                    "self-critique policy"
+                                                ],
+                        "comparison_axes":  [
+                                                "retrieval strategy",
+                                                "memory strategy",
+                                                "grounding reliability",
+                                                "control policy"
+                                            ],
+                        "novelty_terms":  [
+                                              "retrieval",
+                                              "memory",
+                                              "self-reflection",
+                                              "grounding"
+                                          ],
+                        "weaknesses":  [
+                                           "control logic complexity",
+                                           "policy brittleness",
+                                           "quality depends on evidence selection"
+                                       ],
+                        "experiments":  [
+                                            "retrieval vs memory ablation",
+                                            "policy robustness test",
+                                            "hallucination reduction benchmark",
+                                            "long-context task comparison"
+                                        ],
+                        "modules":  [
+                                        "retrieval module",
+                                        "memory manager",
+                                        "critic",
+                                        "answer generator"
+                                    ],
+                        "prototype":  "Unified agent prototype that routes between retrieval, memory paging, and critique before answering."
+                    },
+                    {
+                        "id":  "compare_hybrid_sequence_models",
+                        "source_titles":  [
+                                              "Mamba Linear-Time Sequence Modeling with Selective State Spaces",
+                                              "Retentive Network A Successor to Transformer for Large Language Models",
+                                              "RWKV Reinventing RNNs for the Transformer Era",
+                                              "Gated Linear Attention Transformers with Hardware-Efficient Training",
+                                              "Jamba A Hybrid Transformer-Mamba Language Model"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "selective state space",
+                                                    "retention",
+                                                    "RWKV-style recurrence",
+                                                    "gated linear attention",
+                                                    "hybrid attention-Mamba stack"
+                                                ],
+                        "comparison_axes":  [
+                                                "sequence efficiency",
+                                                "global token access",
+                                                "training parallelism",
+                                                "inference recurrence"
+                                            ],
+                        "novelty_terms":  [
+                                              "long-context",
+                                              "linear-time",
+                                              "hybrid",
+                                              "state-space"
+                                          ],
+                        "weaknesses":  [
+                                           "implementation complexity",
+                                           "task-fit sensitivity",
+                                           "less direct pairwise token access than attention"
+                                       ],
+                        "experiments":  [
+                                            "long-sequence benchmark",
+                                            "throughput comparison",
+                                            "attention-vs-SSM ablation",
+                                            "scaling law test"
+                                        ],
+                        "modules":  [
+                                        "sequence mixer",
+                                        "state updater",
+                                        "routing layer",
+                                        "output head"
+                                    ],
+                        "prototype":  "Sequence model scaffold comparing attention, recurrence, and hybrid mixers under the same benchmark harness."
+                    },
+                    {
+                        "id":  "compare_agent_tooling",
+                        "source_titles":  [
+                                              "ReAct Synergizing Reasoning and Acting in Language Models",
+                                              "Toolformer Language Models Can Teach Themselves to Use Tools",
+                                              "Gorilla Large Language Model Connected with Massive APIs",
+                                              "AutoGen Enabling Next-Gen LLM Applications via Multi-Agent Conversation",
+                                              "The Fugu Framework An Open-Ended and Adaptive Framework for Collaborative AI Agents"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "reasoning trace",
+                                                    "tool-call policy",
+                                                    "API connector",
+                                                    "multi-agent conversation"
+                                                ],
+                        "comparison_axes":  [
+                                                "tool use",
+                                                "orchestration",
+                                                "agent coordination",
+                                                "robustness"
+                                            ],
+                        "novelty_terms":  [
+                                              "tool use",
+                                              "reasoning and acting",
+                                              "multi-agent",
+                                              "orchestration"
+                                          ],
+                        "weaknesses":  [
+                                           "orchestration complexity",
+                                           "quality depends on agent role design and model reliability",
+                                           "tool brittleness"
+                                       ],
+                        "experiments":  [
+                                            "tool-call accuracy benchmark",
+                                            "multi-agent coordination test",
+                                            "failure-recovery probe",
+                                            "cost-latency trade-off study"
+                                        ],
+                        "modules":  [
+                                        "planner",
+                                        "tool executor",
+                                        "message bus",
+                                        "critic"
+                                    ],
+                        "prototype":  "Agentic orchestration prototype with reasoning, tool invocation, and multi-agent message passing."
+                    },
+                    {
+                        "id":  "compare_edge_model_efficiency",
+                        "source_titles":  [
+                                              "LFM2 Technical Report Efficient Mobile Foundation Models",
+                                              "Phi-3 Technical Report A Highly Capable Language Model Locally on Your Phone",
+                                              "MobileBERT",
+                                              "DistilBERT, a distilled version of BERT smaller, faster, cheaper and lighter",
+                                              "Gemma 2 Improving Open Language Models at a Practical Size"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "mobile hybrid layers",
+                                                    "compressed transformer",
+                                                    "distillation pipeline",
+                                                    "practical-size dense model"
+                                                ],
+                        "comparison_axes":  [
+                                                "device latency",
+                                                "parameter efficiency",
+                                                "distillation quality",
+                                                "deployment footprint"
+                                            ],
+                        "novelty_terms":  [
+                                              "mobile",
+                                              "efficient",
+                                              "distilled",
+                                              "edge"
+                                          ],
+                        "weaknesses":  [
+                                           "capacity trade-off",
+                                           "hardware dependence",
+                                           "distillation sensitivity"
+                                       ],
+                        "experiments":  [
+                                            "on-device latency test",
+                                            "memory usage benchmark",
+                                            "accuracy vs size curve",
+                                            "distillation ablation"
+                                        ],
+                        "modules":  [
+                                        "encoder",
+                                        "compression block",
+                                        "adapter",
+                                        "task head"
+                                    ],
+                        "prototype":  "Edge-friendly inference stack with profiling hooks and distilled submodules."
+                    },
+                    {
+                        "id":  "hybrid_mla_moe_retrieval_agent",
+                        "source_titles":  [
+                                              "DeepSeek-V3 Technical Report",
+                                              "Command R Retrieval-Augmented Generation at Production Scale",
+                                              "MemGPT Towards LLMs as Operating Systems",
+                                              "AutoGen Enabling Next-Gen LLM Applications via Multi-Agent Conversation"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "MoE backbone",
+                                                    "retriever",
+                                                    "memory manager",
+                                                    "multi-agent controller"
+                                                ],
+                        "comparison_axes":  [
+                                                "specialization",
+                                                "grounding",
+                                                "memory",
+                                                "orchestration"
+                                            ],
+                        "novelty_terms":  [
+                                              "hybrid",
+                                              "MoE",
+                                              "retrieval",
+                                              "memory",
+                                              "multi-agent"
+                                          ],
+                        "weaknesses":  [
+                                           "integration complexity",
+                                           "routing instability",
+                                           "policy brittleness",
+                                           "system overhead"
+                                       ],
+                        "experiments":  [
+                                            "end-to-end ablation",
+                                            "retriever/memory routing ablation",
+                                            "failure-mode probe",
+                                            "cost-quality trade-off test"
+                                        ],
+                        "modules":  [
+                                        "shared trunk",
+                                        "expert router",
+                                        "retrieval service",
+                                        "memory service",
+                                        "agent orchestrator"
+                                    ],
+                        "prototype":  "Hybrid agent architecture combining sparse experts, retrieval, memory paging, and orchestration hooks."
+                    },
+                    {
+                        "id":  "hybrid_jamba_jepa_retrieval",
+                        "source_titles":  [
+                                              "Jamba A Hybrid Transformer-Mamba Language Model",
+                                              "LLM-JEPA Large Language Models Meet Joint Embedding Predictive Architectures",
+                                              "The Fugu Framework An Open-Ended and Adaptive Framework for Collaborative AI Agents"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "Transformer layers",
+                                                    "Mamba layers",
+                                                    "JEPA latent prediction head",
+                                                    "agent workflow"
+                                                ],
+                        "comparison_axes":  [
+                                                "sequence mixing",
+                                                "latent prediction",
+                                                "planning",
+                                                "efficiency"
+                                            ],
+                        "novelty_terms":  [
+                                              "hybrid",
+                                              "Mamba",
+                                              "JEPA",
+                                              "agent workflow"
+                                          ],
+                        "weaknesses":  [
+                                           "many interacting design choices",
+                                           "latent objective risk",
+                                           "workflow brittleness"
+                                       ],
+                        "experiments":  [
+                                            "JEPA objective ablation",
+                                            "hybrid-vs-pure backbone comparison",
+                                            "agent workflow failure probe",
+                                            "context-length scaling"
+                                        ],
+                        "modules":  [
+                                        "sequence encoder",
+                                        "latent predictor",
+                                        "workflow manager",
+                                        "evaluation hooks"
+                                    ],
+                        "prototype":  "Hybrid sequence-and-agent model skeleton with latent-prediction and workflow routing."
+                    },
+                    {
+                        "id":  "hybrid_edge_multimodal_adapter",
+                        "source_titles":  [
+                                              "LFM2 Technical Report Efficient Mobile Foundation Models",
+                                              "Qwen-VL A Versatile Vision-Language Model for Understanding, Localization, Text Reading, and Beyond",
+                                              "LoRA Low-Rank Adaptation of Large Language Models"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "mobile backbone",
+                                                    "vision-language adapter",
+                                                    "low-rank updates"
+                                                ],
+                        "comparison_axes":  [
+                                                "multimodal grounding",
+                                                "edge efficiency",
+                                                "adapter complexity",
+                                                "deployment footprint"
+                                            ],
+                        "novelty_terms":  [
+                                              "hybrid",
+                                              "edge",
+                                              "multimodal",
+                                              "adapter"
+                                          ],
+                        "weaknesses":  [
+                                           "complex data pipeline",
+                                           "visual grounding needs careful evaluation",
+                                           "rank sensitivity"
+                                       ],
+                        "experiments":  [
+                                            "OCR benchmark",
+                                            "localization benchmark",
+                                            "adapter rank ablation",
+                                            "on-device latency test"
+                                        ],
+                        "modules":  [
+                                        "vision encoder",
+                                        "language backbone",
+                                        "adapter",
+                                        "task head"
+                                    ],
+                        "prototype":  "Edge multimodal adapter stack with LoRA-style updates and evaluation hooks for OCR and grounding."
+                    },
+                    {
+                        "id":  "hybrid_tool_memory_research_agent",
+                        "source_titles":  [
+                                              "ReAct Synergizing Reasoning and Acting in Language Models",
+                                              "Toolformer Language Models Can Teach Themselves to Use Tools",
+                                              "MemGPT Towards LLMs as Operating Systems",
+                                              "The Fugu Framework An Open-Ended and Adaptive Framework for Collaborative AI Agents"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "reasoning loop",
+                                                    "tool policy",
+                                                    "memory pager",
+                                                    "collaborative agent workflow"
+                                                ],
+                        "comparison_axes":  [
+                                                "tool calling",
+                                                "memory",
+                                                "coordination",
+                                                "self-management"
+                                            ],
+                        "novelty_terms":  [
+                                              "tool use",
+                                              "memory",
+                                              "research agent",
+                                              "hybrid agent"
+                                          ],
+                        "weaknesses":  [
+                                           "workflow brittleness",
+                                           "verification burden",
+                                           "dependence on tool reliability"
+                                       ],
+                        "experiments":  [
+                                            "tool success rate",
+                                            "memory retention benchmark",
+                                            "multi-agent coordination test",
+                                            "robustness to tool failure"
+                                        ],
+                        "modules":  [
+                                        "planner",
+                                        "retriever",
+                                        "memory manager",
+                                        "tool executor",
+                                        "critic"
+                                    ],
+                        "prototype":  "Research-agent prototype that combines tool use, memory paging, and collaborative orchestration."
+                    },
+                    {
+                        "id":  "weakness_deepseek_v3",
+                        "source_titles":  [
+                                              "DeepSeek-V3 Technical Report"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "MoE routing",
+                                                    "latent attention"
+                                                ],
+                        "comparison_axes":  [
+                                                "engineering complexity",
+                                                "routing stability",
+                                                "precision sensitivity"
+                                            ],
+                        "novelty_terms":  [
+                                              "sparse experts",
+                                              "latent attention"
+                                          ],
+                        "weaknesses":  [
+                                           "complex large-scale engineering",
+                                           "routing stability",
+                                           "precision sensitivity",
+                                           "infrastructure sensitivity"
+                                       ],
+                        "experiments":  [
+                                            "routing ablation",
+                                            "precision stress test",
+                                            "scaling stability test"
+                                        ],
+                        "modules":  [
+                                        "router",
+                                        "attention stack",
+                                        "expert block"
+                                    ],
+                        "prototype":  "N/A"
+                    },
+                    {
+                        "id":  "weakness_jamba",
+                        "source_titles":  [
+                                              "Jamba A Hybrid Transformer-Mamba Language Model"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "attention",
+                                                    "Mamba",
+                                                    "sparse experts"
+                                                ],
+                        "comparison_axes":  [
+                                                "design complexity",
+                                                "ablation difficulty",
+                                                "sequence efficiency"
+                                            ],
+                        "novelty_terms":  [
+                                              "hybrid",
+                                              "Mamba"
+                                          ],
+                        "weaknesses":  [
+                                           "many interacting design choices",
+                                           "harder ablation surface than pure backbones"
+                                       ],
+                        "experiments":  [
+                                            "component ablation",
+                                            "order sensitivity test",
+                                            "context-length scaling test"
+                                        ],
+                        "modules":  [
+                                        "attention",
+                                        "Mamba block",
+                                        "expert router"
+                                    ],
+                        "prototype":  "N/A"
+                    },
+                    {
+                        "id":  "weakness_command_r",
+                        "source_titles":  [
+                                              "Command R Retrieval-Augmented Generation at Production Scale"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "retriever",
+                                                    "generator"
+                                                ],
+                        "comparison_axes":  [
+                                                "specification completeness",
+                                                "retriever dependence",
+                                                "corpus dependence"
+                                            ],
+                        "novelty_terms":  [
+                                              "production RAG"
+                                          ],
+                        "weaknesses":  [
+                                           "architecture details are less fully specified than open research papers",
+                                           "quality depends on retriever and corpus"
+                                       ],
+                        "experiments":  [
+                                            "retriever sensitivity test",
+                                            "corpus drift test",
+                                            "citation correctness benchmark"
+                                        ],
+                        "modules":  [
+                                        "retriever",
+                                        "generator",
+                                        "citation layer"
+                                    ],
+                        "prototype":  "N/A"
+                    },
+                    {
+                        "id":  "weakness_memgpt",
+                        "source_titles":  [
+                                              "MemGPT Towards LLMs as Operating Systems"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "working memory",
+                                                    "archival memory"
+                                                ],
+                        "comparison_axes":  [
+                                                "policy reliability",
+                                                "self-management",
+                                                "memory control"
+                                            ],
+                        "novelty_terms":  [
+                                              "agent memory",
+                                              "paging"
+                                          ],
+                        "weaknesses":  [
+                                           "memory policies can fail",
+                                           "requires reliable self-management"
+                                       ],
+                        "experiments":  [
+                                            "memory failure probe",
+                                            "long-horizon consistency test",
+                                            "paging policy ablation"
+                                        ],
+                        "modules":  [
+                                        "controller",
+                                        "page manager",
+                                        "archive"
+                                    ],
+                        "prototype":  "N/A"
+                    },
+                    {
+                        "id":  "weakness_autogen",
+                        "source_titles":  [
+                                              "AutoGen Enabling Next-Gen LLM Applications via Multi-Agent Conversation"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "multi-agent conversation",
+                                                    "tool use"
+                                                ],
+                        "comparison_axes":  [
+                                                "orchestration complexity",
+                                                "role design",
+                                                "model reliability"
+                                            ],
+                        "novelty_terms":  [
+                                              "multi-agent",
+                                              "orchestration"
+                                          ],
+                        "weaknesses":  [
+                                           "orchestration complexity",
+                                           "quality depends on agent role design and model reliability"
+                                       ],
+                        "experiments":  [
+                                            "role ablation",
+                                            "coordination failure probe",
+                                            "cost-latency study"
+                                        ],
+                        "modules":  [
+                                        "agent roles",
+                                        "message router",
+                                        "tool interface"
+                                    ],
+                        "prototype":  "N/A"
+                    },
+                    {
+                        "id":  "experiment_mla_moe_retrieval_agent",
+                        "source_titles":  [
+                                              "DeepSeek-V3 Technical Report",
+                                              "Command R Retrieval-Augmented Generation at Production Scale",
+                                              "MemGPT Towards LLMs as Operating Systems"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "MoE",
+                                                    "retrieval",
+                                                    "memory"
+                                                ],
+                        "comparison_axes":  [
+                                                "usefulness",
+                                                "ablation sensitivity",
+                                                "failure modes"
+                                            ],
+                        "novelty_terms":  [
+                                              "evaluation",
+                                              "moe",
+                                              "retrieval",
+                                              "memory"
+                                          ],
+                        "weaknesses":  [
+                                           "complex system interaction",
+                                           "retriever dependence",
+                                           "memory policy brittleness"
+                                       ],
+                        "experiments":  [
+                                            "baseline comparison",
+                                            "MoE ablation",
+                                            "retriever ablation",
+                                            "memory ablation",
+                                            "failure-mode probes"
+                                        ],
+                        "modules":  [
+                                        "backbone",
+                                        "router",
+                                        "retriever",
+                                        "memory manager"
+                                    ],
+                        "prototype":  "Benchmark plan with measurable ablations across routing, retrieval, and memory components."
+                    },
+                    {
+                        "id":  "experiment_jamba_sequence_efficiency",
+                        "source_titles":  [
+                                              "Jamba A Hybrid Transformer-Mamba Language Model",
+                                              "Mamba Linear-Time Sequence Modeling with Selective State Spaces",
+                                              "Retentive Network A Successor to Transformer for Large Language Models"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "attention",
+                                                    "Mamba",
+                                                    "retention"
+                                                ],
+                        "comparison_axes":  [
+                                                "long-context efficiency",
+                                                "throughput",
+                                                "sequence modeling quality"
+                                            ],
+                        "novelty_terms":  [
+                                              "efficiency",
+                                              "long-context",
+                                              "linear-time"
+                                          ],
+                        "weaknesses":  [
+                                           "kernel and implementation complexity",
+                                           "task-fit sensitivity"
+                                       ],
+                        "experiments":  [
+                                            "sequence-length sweep",
+                                            "throughput benchmark",
+                                            "pure-backbone baseline comparison",
+                                            "ablation of each mixer"
+                                        ],
+                        "modules":  [
+                                        "sequence mixer",
+                                        "state update",
+                                        "attention block"
+                                    ],
+                        "prototype":  "Benchmark suite comparing hybrid, Mamba, and retention models across context lengths."
+                    },
+                    {
+                        "id":  "experiment_agent_memory_safety",
+                        "source_titles":  [
+                                              "MemGPT Towards LLMs as Operating Systems",
+                                              "Self-RAG Learning to Retrieve, Generate, and Critique through Self-Reflection",
+                                              "ReAct Synergizing Reasoning and Acting in Language Models"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "memory pager",
+                                                    "retrieval policy",
+                                                    "reason-act loop"
+                                                ],
+                        "comparison_axes":  [
+                                                "memory safety",
+                                                "grounding",
+                                                "failure recovery"
+                                            ],
+                        "novelty_terms":  [
+                                              "memory safety",
+                                              "self-reflection",
+                                              "tool use"
+                                          ],
+                        "weaknesses":  [
+                                           "memory policies can fail",
+                                           "reflection signals can be brittle",
+                                           "tool dependence"
+                                       ],
+                        "experiments":  [
+                                            "memory corruption probe",
+                                            "hallucination reduction test",
+                                            "tool-failure recovery benchmark",
+                                            "long-task consistency benchmark"
+                                        ],
+                        "modules":  [
+                                        "memory manager",
+                                        "critic",
+                                        "tool executor",
+                                        "planner"
+                                    ],
+                        "prototype":  "Safety-focused agent benchmark covering memory failures, tool failures, and grounded recovery."
+                    },
+                    {
+                        "id":  "prototype_mla_retrieval_moe_agent",
+                        "source_titles":  [
+                                              "DeepSeek-V3 Technical Report",
+                                              "Command R Retrieval-Augmented Generation at Production Scale",
+                                              "Mixtral of Experts"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "MoE backbone",
+                                                    "retriever",
+                                                    "generator"
+                                                ],
+                        "comparison_axes":  [
+                                                "sparse compute",
+                                                "retrieval grounding",
+                                                "routing efficiency"
+                                            ],
+                        "novelty_terms":  [
+                                              "moe",
+                                              "retrieval",
+                                              "prototype"
+                                          ],
+                        "weaknesses":  [
+                                           "routing load balance complexity",
+                                           "expert specialization is hard to inspect",
+                                           "serving requires expert-aware infrastructure"
+                                       ],
+                        "experiments":  [
+                                            "end-to-end latency test",
+                                            "retrieval quality benchmark",
+                                            "expert load balance probe"
+                                        ],
+                        "modules":  [
+                                        "router",
+                                        "experts",
+                                        "retriever",
+                                        "decoder"
+                                    ],
+                        "prototype":  "Minimal PyTorch-style skeleton with routing points, retrieval hook, and evaluation hooks."
+                    },
+                    {
+                        "id":  "prototype_jamba_jepa_agent",
+                        "source_titles":  [
+                                              "Jamba A Hybrid Transformer-Mamba Language Model",
+                                              "LLM-JEPA Large Language Models Meet Joint Embedding Predictive Architectures",
+                                              "The Fugu Framework An Open-Ended and Adaptive Framework for Collaborative AI Agents"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "hybrid sequence encoder",
+                                                    "latent predictor",
+                                                    "agent workflow"
+                                                ],
+                        "comparison_axes":  [
+                                                "hybrid modeling",
+                                                "latent prediction",
+                                                "workflow control"
+                                            ],
+                        "novelty_terms":  [
+                                              "hybrid",
+                                              "jepa",
+                                              "agent"
+                                          ],
+                        "weaknesses":  [
+                                           "objective design sensitivity",
+                                           "workflow brittleness",
+                                           "harder evaluation than token loss"
+                                       ],
+                        "experiments":  [
+                                            "objective ablation",
+                                            "workflow stress test",
+                                            "context-length benchmark",
+                                            "latent-vs-token loss comparison"
+                                        ],
+                        "modules":  [
+                                        "encoder",
+                                        "predictor",
+                                        "agent orchestrator",
+                                        "evaluation hooks"
+                                    ],
+                        "prototype":  "Minimal pseudocode skeleton combining Jamba-style hybrid layers with a JEPA latent objective and agent loop."
+                    },
+                    {
+                        "id":  "prototype_edge_multimodal_adapter",
+                        "source_titles":  [
+                                              "LFM2 Technical Report Efficient Mobile Foundation Models",
+                                              "Qwen-VL A Versatile Vision-Language Model for Understanding, Localization, Text Reading, and Beyond",
+                                              "LoRA Low-Rank Adaptation of Large Language Models"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "mobile backbone",
+                                                    "vision-language adapter",
+                                                    "low-rank update"
+                                                ],
+                        "comparison_axes":  [
+                                                "edge deployment",
+                                                "multimodal grounding",
+                                                "adapter efficiency"
+                                            ],
+                        "novelty_terms":  [
+                                              "edge",
+                                              "multimodal",
+                                              "adapter"
+                                          ],
+                        "weaknesses":  [
+                                           "visual grounding still needs careful evaluation",
+                                           "rank choice sensitivity",
+                                           "complex data pipeline"
+                                       ],
+                        "experiments":  [
+                                            "OCR benchmark",
+                                            "localization benchmark",
+                                            "adapter-rank ablation",
+                                            "on-device speed test"
+                                        ],
+                        "modules":  [
+                                        "vision encoder",
+                                        "text backbone",
+                                        "LoRA adapter",
+                                        "task head"
+                                    ],
+                        "prototype":  "Minimal adapter-based multimodal model skeleton with evaluation hooks for OCR, grounding, and latency."
+                    }
+                ]
+}

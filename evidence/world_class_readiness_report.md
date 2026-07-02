@@ -1,23 +1,25 @@
 # World-Class Readiness Report
 
-Created: 2026-06-30T16:43:26Z
+Created: 2026-07-01T08:20:06Z
 
 ## Claim Status
 
-- Target: World-best AI-architecture research agent
-- Claim level: world_best_claim_ready
-- Best claim allowed: True
+- Target: World-class AI-architecture research agent
+- Benchmark: ArchBench-R v2 Challenge
+- Claim level: world_class_candidate_archbench_r_v2_validated
+- Claim scope: ArchBench-R v2 Challenge validation and readiness gates; not universal best-in-world proof.
+- Limited claim allowed: True
 - Gates passed: 8 / 8
 - Blocking gates: none
 
 ## Gates
 
-| Gate | Passed | Blocks Best Claim | Evidence | Next Action |
+| Gate | Passed | Blocks Limited Claim | Evidence | Next Action |
 |---|---|---|---|---|
 | Paper-scale corpus | True | True | 200 curated records / 200 required. | none |
 | Architecture-family breadth | True | True | 479 unique blocks / 120; 10/10 families ready; QA clean: True. | none |
-| Internal ArchBench-R leadership | True | True | ArchMind overall 0.9958; best system: archmind_structured. | none |
-| Independent external validation | True | True | 3 external submissions / 3 required; best system: archmind_structured. | none |
+| Internal ArchBench-R leadership | True | True | ArchMind overall 0.9955; best system: archmind_structured. | none |
+| Independent external validation | True | True | 5 external submissions / 5 required; best system: archmind_structured. | none |
 | Stage-gate reliability | True | False | Curated eval 0.9927; hard benchmark 1.0000; hard passed: True. | none |
 | Runnable experiment loop | True | False | script_executed=True, passed=True, hard_accuracy=1.0. | none |
 | Prototype regression ledger | True | False | runs=22, passed=True, trend=same. | none |

@@ -13,6 +13,7 @@ The project is focused on AI model architecture research rather than general cha
 - Builds hybrid architecture proposals from grounded paper evidence.
 - Uses staged prototype gates to separate retrieval-grounded evidence from later JEPA/routing extensions.
 - Runs ArchBench-R v1, a local architecture-research benchmark covering paper-to-architecture extraction, architecture comparison, hybrid design, weakness detection, experiment design, and prototype generation.
+- Runs ArchBench-R v2 Challenge, a harder follow-up suite covering retrieval-memory agents, hybrid sequence models, edge/multimodal adapters, failure triage, and prototype boundaries.
 - Tracks claim readiness with explicit gates instead of relying on vague self-assessment.
 
 ## Current Evidence
@@ -23,7 +24,10 @@ The project is focused on AI model architecture research rather than general cha
 - Corpus readiness: 1.0000
 - Field-position score: 15 / 16
 - World-class readiness gates: 8 / 8
-- External validation submissions: 3 / 3
+- ArchBench-R v1 external validation submissions: 3 / 3
+- ArchBench-R v2 Challenge cases: 27
+- ArchBench-R v2 reference score: 0.9955
+- ArchBench-R v2 external submissions: 5 / 5 target; gate passed
 
 ## ArchBench-R v1 Result
 
@@ -37,9 +41,9 @@ The project is focused on AI model architecture research rather than general cha
 
 ## Honest Claim
 
-ArchMind is world-best-claim ready under the ArchBench-R v1 validation suite: it ranked first against three independent external model submissions and passed all eight readiness gates.
+ArchMind is a world-class AI architecture-research candidate under the ArchBench-R validation program. In v1, it ranked first against three independent external model submissions and passed all eight readiness gates. In v2, it leads the harder 27-case challenge after the 5-submission external validation gate.
 
-This is not yet a universal proof that ArchMind is the best possible architecture-research system in the world. Broader public benchmarking, human expert review, more frontier-model submissions, and third-party blind evaluation are the next steps.
+This is not yet a universal proof that ArchMind is the best possible architecture-research system in the world. It still needs human expert review, more frontier-model comparisons, public third-party replication, and blind evaluation outside this repo.
 
 ## Collaboration Ask
 

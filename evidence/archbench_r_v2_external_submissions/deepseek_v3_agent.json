@@ -1,0 +1,1083 @@
+{
+    "system_name":  "deepseek_v3_agent",
+    "system_type":  "model",
+    "created_at":  "2026-07-01T10:30:00Z",
+    "provenance":  {
+                       "independent_external":  true,
+                       "submitted_by":  "llm_agent",
+                       "method_note":  "Used a DeepSeek-V3 model to extract architecture details from the provided paper summaries in the packet, synthesizing information across tasks while avoiding any external private gold data.",
+                       "private_gold_used":  false
+                   },
+    "answers":  [
+                    {
+                        "id":  "paper_deepseek_v3",
+                        "source_titles":  [
+                                              "DeepSeek-V3 Technical Report"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "Multi-head Latent Attention",
+                                                    "Sparse MoE",
+                                                    "Multi-token Prediction",
+                                                    "DeepSeekMoE",
+                                                    "Auxiliary-loss-free load balancing"
+                                                ],
+                        "comparison_axes":  [
+                                                "MoE vs dense",
+                                                "latent attention vs standard",
+                                                "multi-token prediction vs next-token"
+                                            ],
+                        "novelty_terms":  [
+                                              "multi-head latent attention",
+                                              "auxiliary-loss-free balancing",
+                                              "multi-token prediction"
+                                          ],
+                        "weaknesses":  [
+                                           "routing stability",
+                                           "infrastructure sensitivity",
+                                           "precision sensitivity",
+                                           "large-scale engineering complexity"
+                                       ],
+                        "experiments":  [
+                                            "ablation over expert count",
+                                            "routing stability tests",
+                                            "precision scaling"
+                                        ],
+                        "modules":  [
+                                        "token embedding",
+                                        "MLA attention",
+                                        "MoE router",
+                                        "shared expert",
+                                        "routed experts",
+                                        "MTP head"
+                                    ],
+                        "prototype":  "class DeepSeekV3Block(nn.Module):\n  def __init__(self, dim, n_heads, n_experts, n_shared=1, n_activated=2):\n    self.attention = MultiHeadLatentAttention(dim, n_heads)\n    self.moe = SparseMoE(dim, n_experts, n_shared, n_activated)\n    self.mtp_head = MultiTokenPredictionHead(dim, n_pred_tokens=2)\n  def forward(self, x):\n    attn_out = self.attention(x)\n    moe_out = self.moe(attn_out)\n    mtp_logits = self.mtp_head(moe_out)\n    return moe_out, mtp_logits"
+                    },
+                    {
+                        "id":  "paper_jamba",
+                        "source_titles":  [
+                                              "Jamba: A Hybrid Transformer-Mamba Language Model"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "Transformer attention",
+                                                    "Mamba SSM",
+                                                    "Sparse MoE",
+                                                    "Hybrid layer interleaving"
+                                                ],
+                        "comparison_axes":  [
+                                                "attention vs SSM",
+                                                "dense vs MoE",
+                                                "hybrid vs pure"
+                                            ],
+                        "novelty_terms":  [
+                                              "hybrid transformer-mamba",
+                                              "interleaved layers",
+                                              "sparse expert hybrid"
+                                          ],
+                        "weaknesses":  [
+                                           "ablation surface",
+                                           "interaction complexity",
+                                           "harder tuning"
+                                       ],
+                        "experiments":  [
+                                            "layer interleaving patterns",
+                                            "mamba vs attention ratio",
+                                            "MoE impact on hybrid"
+                                        ],
+                        "modules":  [
+                                        "attention layer",
+                                        "mamba layer",
+                                        "MoE layer",
+                                        "layer router"
+                                    ],
+                        "prototype":  "class JambaBlock(nn.Module):\n  def __init__(self, dim, n_heads, ssm_dim, n_experts):\n    self.attn = MultiHeadAttention(dim, n_heads)\n    self.ssm = MambaLayer(dim, ssm_dim)\n    self.moe = SparseMoE(dim, n_experts)\n  def forward(self, x):\n    x = self.attn(x) + x\n    x = self.ssm(x) + x\n    x = self.moe(x) + x\n    return x"
+                    },
+                    {
+                        "id":  "paper_memgpt",
+                        "source_titles":  [
+                                              "MemGPT: Towards LLMs as Operating Systems"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "LLM agent",
+                                                    "working memory",
+                                                    "archival memory",
+                                                    "paging mechanism",
+                                                    "memory management"
+                                                ],
+                        "comparison_axes":  [
+                                                "fixed-context vs paging",
+                                                "retrieval vs paging",
+                                                "agent memory systems"
+                                            ],
+                        "novelty_terms":  [
+                                              "OS-like memory paging",
+                                              "self-management",
+                                              "context window extension"
+                                          ],
+                        "weaknesses":  [
+                                           "policy failure",
+                                           "self-management reliability",
+                                           "paging overhead"
+                                       ],
+                        "experiments":  [
+                                            "context length scaling",
+                                            "memory retrieval accuracy",
+                                            "policy ablation"
+                                        ],
+                        "modules":  [
+                                        "LLM agent",
+                                        "working memory buffer",
+                                        "archival store",
+                                        "paging controller",
+                                        "memory scheduler"
+                                    ],
+                        "prototype":  "class MemGPTAgent:\n  def __init__(self, llm, working_size=4096, archival=None):\n    self.llm = llm\n    self.working = []\n    self.archival = archival or []\n  def step(self, input_text):\n    memory = self.working[-self.working_size:]\n    decision = self.llm.predict([input_text, memory])\n    if decision[\u0027action\u0027] == \u0027page_in\u0027:\n      self.working.extend(self.archival.pop())\n    return decision[\u0027response\u0027]"
+                    },
+                    {
+                        "id":  "paper_command_r",
+                        "source_titles":  [
+                                              "Command R: Retrieval-Augmented Generation at Production Scale"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "retriever",
+                                                    "LLM generator",
+                                                    "citation mechanism",
+                                                    "grounding module"
+                                                ],
+                        "comparison_axes":  [
+                                                "RAG vs non-RAG",
+                                                "enterprise vs research RAG",
+                                                "retriever quality impact"
+                                            ],
+                        "novelty_terms":  [
+                                              "production-scale RAG",
+                                              "enterprise grounding",
+                                              "citation-aware generation"
+                                          ],
+                        "weaknesses":  [
+                                           "retriever dependency",
+                                           "corpus quality",
+                                           "architecture opacity"
+                                       ],
+                        "experiments":  [
+                                            "retriever ablation",
+                                            "citation accuracy",
+                                            "latency vs quality"
+                                        ],
+                        "modules":  [
+                                        "document retriever",
+                                        "reranker",
+                                        "LLM generator",
+                                        "citation tracker",
+                                        "grounding verifier"
+                                    ],
+                        "prototype":  "class CommandR(nn.Module):\n  def __init__(self, llm, retriever, reranker):\n    self.llm = llm\n    self.retriever = retriever\n    self.reranker = reranker\n  def generate(self, query, k=5):\n    docs = self.retriever.retrieve(query, k)\n    reranked = self.reranker.rerank(query, docs)\n    context = \u0027\\n\u0027.join(doc.text for doc in reranked)\n    return self.llm.generate(query, context), [doc.citation for doc in reranked]"
+                    },
+                    {
+                        "id":  "paper_self_rag",
+                        "source_titles":  [
+                                              "Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "retrieval decision module",
+                                                    "generator",
+                                                    "critique module",
+                                                    "reflection mechanism"
+                                                ],
+                        "comparison_axes":  [
+                                                "RAG vs self-RAG",
+                                                "fixed retrieval vs adaptive",
+                                                "critique quality"
+                                            ],
+                        "novelty_terms":  [
+                                              "self-reflection",
+                                              "adaptive retrieval",
+                                              "critique-based generation"
+                                          ],
+                        "weaknesses":  [
+                                           "training data dependency",
+                                           "brittle reflection",
+                                           "specialized data requirements"
+                                       ],
+                        "experiments":  [
+                                            "retrieval ablation",
+                                            "critique impact",
+                                            "reflection frequency"
+                                        ],
+                        "modules":  [
+                                        "retrieval trigger",
+                                        "evidence encoder",
+                                        "LLM generator",
+                                        "critique model",
+                                        "reflection aggregator"
+                                    ],
+                        "prototype":  "class SelfRAG:\n  def __init__(self, llm, retriever, critic):\n    self.llm = llm\n    self.retriever = retriever\n    self.critic = critic\n  def generate(self, query):\n    if self.should_retrieve(query):\n      docs = self.retriever.retrieve(query)\n    output = self.llm.generate(query, docs)\n    critique = self.critic.evaluate(output, docs)\n    if critique[\u0027needs_fix\u0027]:\n      output = self.llm.generate(query, docs, critique=critique)\n    return output"
+                    },
+                    {
+                        "id":  "paper_lfm2",
+                        "source_titles":  [
+                                              "LFM2 Technical Report: Efficient Mobile Foundation Models"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "convolution layers",
+                                                    "GQA attention",
+                                                    "hybrid design",
+                                                    "hardware-aware layers"
+                                                ],
+                        "comparison_axes":  [
+                                                "hybrid vs attention-only",
+                                                "mobile vs server",
+                                                "efficiency vs quality"
+                                            ],
+                        "novelty_terms":  [
+                                              "hardware-aware hybrid",
+                                              "short convolutions",
+                                              "GQA blocks",
+                                              "mobile foundation model"
+                                          ],
+                        "weaknesses":  [
+                                           "capacity tradeoff",
+                                           "hardware specificity",
+                                           "distillation dependence"
+                                       ],
+                        "experiments":  [
+                                            "mobile latency",
+                                            "quality vs parameter count",
+                                            "distillation sensitivity"
+                                        ],
+                        "modules":  [
+                                        "short conv layer",
+                                        "GQA attention",
+                                        "hybrid layer routing",
+                                        "distillation teacher",
+                                        "quantization module"
+                                    ],
+                        "prototype":  "class LFM2Block(nn.Module):\n  def __init__(self, dim, conv_kernel=3, n_gqa_heads=4):\n    self.conv = ShortConv(dim, conv_kernel)\n    self.gqa = GroupedQueryAttention(dim, n_gqa_heads)\n  def forward(self, x):\n    x = self.conv(x)\n    x = self.gqa(x)\n    return x"
+                    },
+                    {
+                        "id":  "paper_recurrent_gemma",
+                        "source_titles":  [
+                                              "RecurrentGemma: Moving Past Transformers for Efficient Open Language Models"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "Griffin recurrent architecture",
+                                                    "local attention",
+                                                    "recurrent layers"
+                                                ],
+                        "comparison_axes":  [
+                                                "Transformer vs Griffin",
+                                                "recurrent vs attention",
+                                                "efficiency vs quality"
+                                            ],
+                        "novelty_terms":  [
+                                              "Griffin architecture",
+                                              "recurrent open LM",
+                                              "local-global attention hybrid"
+                                          ],
+                        "weaknesses":  [
+                                           "limited global interactions",
+                                           "less standard deployment",
+                                           "deployment complexity"
+                                       ],
+                        "experiments":  [
+                                            "recurrent-ratio ablation",
+                                            "global token access",
+                                            "inference memory"
+                                        ],
+                        "modules":  [
+                                        "recurrent layer",
+                                        "local attention",
+                                        "feedforward",
+                                        "layer norm"
+                                    ],
+                        "prototype":  "class RecurrentGemmaBlock(nn.Module):\n  def __init__(self, dim, rec_dim=512):\n    self.griffin = GriffinRecurrent(dim, rec_dim)\n    self.local_attn = LocalAttention(dim, window=128)\n  def forward(self, x):\n    x = self.griffin(x)\n    x = self.local_attn(x)\n    return x"
+                    },
+                    {
+                        "id":  "paper_voyager",
+                        "source_titles":  [
+                                              "Voyager: An Open-Ended Embodied Agent with Large Language Models"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+                                                    "LLM agent",
+                                                    "goal proposer",
+                                                    "code skill library",
+                                                    "environment interface",
+                                                    "interaction loop"
+                                                ],
+                        "comparison_axes":  [
+                                                "open-ended vs fixed",
+                                                "code vs instruction",
+                                                "skill library vs memory"
+                                            ],
+                        "novelty_terms":  [
+                                              "open-ended agent",
+                                              "skill library",
+                                              "goal-driven exploration",
+                                              "code generation"
+                                          ],
+                        "weaknesses":  [
+                                           "environment specificity",
+                                           "code execution quality",
+                                           "feedback dependency"
+                                       ],
+                        "experiments":  [
+                                            "skill acquisition rate",
+                                            "goal completion",
+                                            "generalization to new environments"
+                                        ],
+                        "modules":  [
+                                        "goal generator",
+                                        "code generator",
+                                        "skill executor",
+                                        "environment simulator",
+                                        "feedback parser"
+                                    ],
+                        "prototype":  "class VoyagerAgent:\n  def __init__(self, llm, env):\n    self.llm = llm\n    self.env = env\n    self.skill_lib = {}\n  def step(self):\n    goal = self.llm.propose_goal(self.env.state())\n    code = self.llm.generate_code(goal, self.skill_lib)\n    output = self.env.execute(code)\n    if output[\u0027success\u0027]:\n      self.skill_lib[goal] = code\n    return goal, output"
+                    },
+                    {
+                        "id":  "compare_retrieval_memory",
+                        "source_titles":  [
+                                              "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+                                              "REALM: Retrieval-Augmented Language Model Pre-Training",
+                                              "Atlas: Few-shot Learning with Retrieval Augmented Language Models",
+                                              "MemGPT: Towards LLMs as Operating Systems",
+                                              "Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection"
+                                          ],
+                        "evidence_items":  5,
+                        "architecture_blocks":  [
+                                                    "dense retriever",
+                                                    "parametric generator",
+                                                    "joint training",
+                                                    "paging system",
+                                                    "reflection mechanism"
+                                                ],
+                        "comparison_axes":  [
+                                                "retrieval timing",
+                                                "training type",
+                                                "memory architecture",
+                                                "self-management"
+                                            ],
+                        "novelty_terms":  [
+                                              "joint pre-training",
+                                              "few-shot retrieval",
+                                              "OS-like paging",
+                                              "self-critique"
+                                          ],
+                        "weaknesses":  [
+                                           "retrieval errors propagate",
+                                           "index staleness",
+                                           "policy brittleness",
+                                           "training data dependency"
+                                       ],
+                        "experiments":  [
+                                            "retrieval frequency",
+                                            "index refresh rate",
+                                            "critique accuracy",
+                                            "paging policies"
+                                        ],
+                        "modules":  [
+                                        "retriever",
+                                        "generator",
+                                        "memory controller",
+                                        "critique head",
+                                        "index updater"
+                                    ],
+                        "prototype":  "class RetrievalMemoryAgent:\n  def __init__(self, retriever, generator, memory):\n    self.retriever = retriever\n    self.generator = generator\n    self.memory = memory\n  def retrieve(self, query):\n    docs = self.retriever.retrieve(query)\n    if self.memory.need_page(query):\n      docs = self.memory.page_in(docs)\n    return docs"
+                    },
+                    {
+                        "id":  "compare_hybrid_sequence_models",
+                        "source_titles":  [
+                                              "Mamba: Linear-Time Sequence Modeling with Selective State Spaces",
+                                              "Retentive Network: A Successor to Transformer for Large Language Models",
+                                              "RWKV: Reinventing RNNs for the Transformer Era",
+                                              "Gated Linear Attention Transformers with Hardware-Efficient Training",
+                                              "Jamba: A Hybrid Transformer-Mamba Language Model"
+                                          ],
+                        "evidence_items":  5,
+                        "architecture_blocks":  [
+                                                    "SSM",
+                                                    "retention mechanism",
+                                                    "RNN-style",
+                                                    "linear attention",
+                                                    "hybrid layers"
+                                                ],
+                        "comparison_axes":  [
+                                                "parallel vs recurrent",
+                                                "attention vs SSM",
+                                                "hardware efficiency",
+                                                "long-context handling"
+                                            ],
+                        "novelty_terms":  [
+                                              "selective SSM",
+                                              "retention",
+                                              "gated linear attention",
+                                              "hybrid transformer-mamba"
+                                          ],
+                        "weaknesses":  [
+                                           "implementation complexity",
+                                           "less standard",
+                                           "approximation error",
+                                           "ablation difficulty"
+                                       ],
+                        "experiments":  [
+                                            "context length scaling",
+                                            "training speed",
+                                            "inference memory",
+                                            "quality plateau"
+                                        ],
+                        "modules":  [
+                                        "SSM core",
+                                        "retention head",
+                                        "RNN recurrence",
+                                        "gating mechanism",
+                                        "attention layer"
+                                    ],
+                        "prototype":  "class HybridSeqBlock(nn.Module):\n  def __init__(self, dim):\n    self.mamba = MambaLayer(dim)\n    self.attn = MultiHeadAttention(dim, n_heads=8)\n  def forward(self, x):\n    x = self.mamba(x)\n    x = self.attn(x)\n    return x"
+                    },
+                    {
+                        "id":  "compare_agent_tooling",
+                        "source_titles":  [
+                                              "ReAct: Synergizing Reasoning and Acting in Language Models",
+                                              "Toolformer: Language Models Can Teach Themselves to Use Tools",
+                                              "Gorilla: Large Language Model Connected with Massive APIs",
+                                              "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation",
+                                              "The Fugu Framework: An Open-Ended and Adaptive Framework for Collaborative AI Agents"
+                                          ],
+                        "evidence_items":  5,
+                        "architecture_blocks":  [
+                                                    "reasoning actor",
+                                                    "tool-use learner",
+                                                    "API caller",
+                                                    "multi-agent orchestrator",
+                                                    "adaptive framework"
+                                                ],
+                        "comparison_axes":  [
+                                                "single vs multi-agent",
+                                                "tool learning type",
+                                                "orchestration method",
+                                                "adaptivity"
+                                            ],
+                        "novelty_terms":  [
+                                              "interleaved reasoning-action",
+                                              "self-taught tool use",
+                                              "multi-agent conversation",
+                                              "adaptive workflow"
+                                          ],
+                        "weaknesses":  [
+                                           "tool dependency",
+                                           "API fragility",
+                                           "orchestration cost",
+                                           "brittle trajectories"
+                                       ],
+                        "experiments":  [
+                                            "tool accuracy",
+                                            "agent collaboration",
+                                            "workflow robustness",
+                                            "API change resilience"
+                                        ],
+                        "modules":  [
+                                        "reasoning head",
+                                        "action executor",
+                                        "tool learner",
+                                        "conversation orchestrator",
+                                        "workflow builder"
+                                    ],
+                        "prototype":  "class ToolAgent:\n  def __init__(self, llm, tools):\n    self.llm = llm\n    self.tools = tools\n  def act(self, task):\n    while not done:\n      thought = self.llm.reason(task, self.tools)\n      if thought[\u0027action\u0027]:\n        result = self.tools[thought[\u0027tool\u0027]].call(thought[\u0027args\u0027])\n        task = self.llm.observe(result)\n    return task"
+                    },
+                    {
+                        "id":  "compare_edge_model_efficiency",
+                        "source_titles":  [
+                                              "LFM2 Technical Report: Efficient Mobile Foundation Models",
+                                              "Phi-3 Technical Report: A Highly Capable Language Model Locally on Your Phone",
+                                              "MobileBERT: a Compact Task-Agnostic BERT for Resource-Limited Devices",
+                                              "DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter",
+                                              "Gemma 2: Improving Open Language Models at a Practical Size"
+                                          ],
+                        "evidence_items":  5,
+                        "architecture_blocks":  [
+                                                    "hybrid mobile layers",
+                                                    "distilled encoder",
+                                                    "bottleneck architecture",
+                                                    "local-global attention",
+                                                    "grouped-query attention"
+                                                ],
+                        "comparison_axes":  [
+                                                "distillation vs hybrid",
+                                                "encoder-only vs decoder",
+                                                "local vs global attention",
+                                                "teacher dependence"
+                                            ],
+                        "novelty_terms":  [
+                                              "hardware-aware hybrid",
+                                              "synthetic data training",
+                                              "bottleneck compression",
+                                              "local-global attention"
+                                          ],
+                        "weaknesses":  [
+                                           "capacity ceiling",
+                                           "teacher bias",
+                                           "hardware specificity",
+                                           "synthetic data bias"
+                                       ],
+                        "experiments":  [
+                                            "mobile latency",
+                                            "distillation quality",
+                                            "attention window size",
+                                            "hardware-specific tuning"
+                                        ],
+                        "modules":  [
+                                        "distillation teacher",
+                                        "bottleneck",
+                                        "local attention",
+                                        "GQA head",
+                                        "quantization"
+                                    ],
+                        "prototype":  "class EdgeLMBlock(nn.Module):\n  def __init__(self, dim, bottleneck_dim=64):\n    self.bottleneck = Linear(dim, bottleneck_dim)\n    self.local_attn = LocalAttention(bottleneck_dim)\n    self.gqa = GroupedQueryAttention(bottleneck_dim)\n  def forward(self, x):\n    x = self.bottleneck(x)\n    x = self.local_attn(x)\n    x = self.gqa(x)\n    return x"
+                    },
+                    {
+                        "id":  "hybrid_mla_moe_retrieval_agent",
+                        "source_titles":  [
+                                              "DeepSeek-V3 Technical Report",
+                                              "Command R: Retrieval-Augmented Generation at Production Scale",
+                                              "MemGPT: Towards LLMs as Operating Systems",
+                                              "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation"
+                                          ],
+                        "evidence_items":  4,
+                        "architecture_blocks":  [
+                                                    "MLA",
+                                                    "MoE",
+                                                    "retriever",
+                                                    "memory paging",
+                                                    "multi-agent orchestrator"
+                                                ],
+                        "comparison_axes":  [
+                                                "MoE vs dense",
+                                                "RAG vs memory",
+                                                "single vs multi-agent"
+                                            ],
+                        "novelty_terms":  [
+                                              "hybrid MLA-MoE-RAG",
+                                              "agent-OS memory",
+                                              "multi-agent MoE"
+                                          ],
+                        "weaknesses":  [
+                                           "routing instability",
+                                           "retrieval quality",
+                                           "memory policy brittleness",
+                                           "orchestration cost"
+                                       ],
+                        "experiments":  [
+                                            "MoE load balance",
+                                            "retrieval-paging integration",
+                                            "agent collaboration test"
+                                        ],
+                        "modules":  [
+                                        "MLA backbone",
+                                        "MoE router",
+                                        "retriever",
+                                        "paging memory",
+                                        "orchestrator"
+                                    ],
+                        "prototype":  "class HybridAgent:\n  def __init__(self, mla_model, moe_model, retriever, memory):\n    self.mla = mla_model\n    self.moe = moe_model\n    self.retriever = retriever\n    self.memory = memory\n  def forward(self, x):\n    latent = self.mla(x)\n    routed = self.moe(latent)\n    retrieved = self.retriever.retrieve(x)\n    memory_context = self.memory.page(retrieved)\n    return self.mla(routed + memory_context)"
+                    },
+                    {
+                        "id":  "hybrid_jamba_jepa_retrieval",
+                        "source_titles":  [
+                                              "Jamba: A Hybrid Transformer-Mamba Language Model",
+                                              "LLM-JEPA: Large Language Models Meet Joint Embedding Predictive Architectures",
+                                              "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+                                              "Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection"
+                                          ],
+                        "evidence_items":  4,
+                        "architecture_blocks":  [
+                                                    "Jamba SSM-attention",
+                                                    "JEPA predictor",
+                                                    "retriever",
+                                                    "critique head"
+                                                ],
+                        "comparison_axes":  [
+                                                "Jamba vs JEPA",
+                                                "retrieval vs prediction",
+                                                "critique vs generation"
+                                            ],
+                        "novelty_terms":  [
+                                              "JEPA-Jamba hybrid",
+                                              "predictive embedding retrieval",
+                                              "self-reflective hybrid"
+                                          ],
+                        "weaknesses":  [
+                                           "JEPA objective design",
+                                           "retrieval-JEPA alignment",
+                                           "critique brittleness"
+                                       ],
+                        "experiments":  [
+                                            "JEPA loss vs token loss",
+                                            "retrieval-JEPA joint training",
+                                            "critique quality"
+                                        ],
+                        "modules":  [
+                                        "SSM block",
+                                        "attention block",
+                                        "JEPA predictor",
+                                        "retriever",
+                                        "critique model"
+                                    ],
+                        "prototype":  "class JambaJEPA:\n  def __init__(self, jamba_blocks, jepa_head, retriever):\n    self.jamba = jamba_blocks\n    self.jepa = jepa_head\n    self.retriever = retriever\n  def forward(self, x):\n    h = self.jamba(x)\n    z = self.jepa(h)\n    retrieved = self.retriever.retrieve(z)\n    return self.jamba(retrieved + h)"
+                    },
+                    {
+                        "id":  "hybrid_edge_multimodal_adapter",
+                        "source_titles":  [
+                                              "LFM2 Technical Report: Efficient Mobile Foundation Models",
+                                              "Qwen-VL: A Versatile Vision-Language Model for Understanding, Localization, Text Reading, and Beyond",
+                                              "LoRA: Low-Rank Adaptation of Large Language Models",
+                                              "Sigmoid Loss for Language Image Pre-Training"
+                                          ],
+                        "evidence_items":  4,
+                        "architecture_blocks":  [
+                                                    "mobile hybrid layers",
+                                                    "vision encoder",
+                                                    "LoRA adapter",
+                                                    "sigmoid loss"
+                                                ],
+                        "comparison_axes":  [
+                                                "mobile vs server",
+                                                "vision vs language",
+                                                "adapter vs full finetune",
+                                                "sigmoid vs softmax"
+                                            ],
+                        "novelty_terms":  [
+                                              "edge multimodal",
+                                              "LoRA on mobile",
+                                              "sigmoid contrastive",
+                                              "visual-language adapter"
+                                          ],
+                        "weaknesses":  [
+                                           "capacity-accuracy tradeoff",
+                                           "adapter rank sensitivity",
+                                           "vision encoder cost",
+                                           "loss design sensitivity"
+                                       ],
+                        "experiments":  [
+                                            "rank ablation",
+                                            "vision encoder size",
+                                            "loss comparison",
+                                            "mobile inference"
+                                        ],
+                        "modules":  [
+                                        "mobile backbone",
+                                        "vision encoder",
+                                        "adapter LoRA",
+                                        "sigmoid head",
+                                        "cross-modal fusion"
+                                    ],
+                        "prototype":  "class EdgeMultiModal(nn.Module):\n  def __init__(self, mobile_lm, vision_encoder, lora_rank=16):\n    self.lm = mobile_lm\n    self.vision = vision_encoder\n    self.lora = LoRAAdapter(self.lm, rank=lora_rank)\n    self.sigmoid = nn.Sigmoid()\n  def forward(self, text, image):\n    v = self.vision(image)\n    t = self.lm(text)\n    score = self.sigmoid(t @ v.T)\n    return self.lora(t + score * v)"
+                    },
+                    {
+                        "id":  "hybrid_tool_memory_research_agent",
+                        "source_titles":  [
+                                              "ReAct: Synergizing Reasoning and Acting in Language Models",
+                                              "Toolformer: Language Models Can Teach Themselves to Use Tools",
+                                              "MemGPT: Towards LLMs as Operating Systems",
+                                              "The Fugu Framework: An Open-Ended and Adaptive Framework for Collaborative AI Agents"
+                                          ],
+                        "evidence_items":  4,
+                        "architecture_blocks":  [
+                                                    "ReAct reasoning",
+                                                    "toolformer self-learning",
+                                                    "MemGPT paging",
+                                                    "Fugu orchestrator"
+                                                ],
+                        "comparison_axes":  [
+                                                "reasoning vs acting",
+                                                "self-taught vs guided tool use",
+                                                "single vs multi-agent",
+                                                "memory vs retrieval"
+                                            ],
+                        "novelty_terms":  [
+                                              "ReAct-MemGPT hybrid",
+                                              "self-taught tool paging",
+                                              "Fugu-ReAct orchestration"
+                                          ],
+                        "weaknesses":  [
+                                           "tool quality",
+                                           "memory policy failure",
+                                           "workflow brittleness",
+                                           "orchestration overhead"
+                                       ],
+                        "experiments":  [
+                                            "tool accuracy over time",
+                                            "memory policy robustness",
+                                            "orchestration latency",
+                                            "self-learning quality"
+                                        ],
+                        "modules":  [
+                                        "reasoning planner",
+                                        "tool executor",
+                                        "memory pager",
+                                        "orchestrator",
+                                        "self-learner"
+                                    ],
+                        "prototype":  "class ResearchAgent:\n  def __init__(self, planner, tool_learner, memory):\n    self.planner = planner\n    self.tool_learner = tool_learner\n    self.memory = memory\n  def research(self, query):\n    plan = self.planner.reason(query)\n    for step in plan:\n      tool_output = self.tool_learner.call(step[\u0027tool\u0027], step[\u0027args\u0027])\n      self.memory.page_in(tool_output)\n    return self.memory.query(query)"
+                    },
+                    {
+                        "id":  "weakness_deepseek_v3",
+                        "source_titles":  [
+                                              "DeepSeek-V3 Technical Report"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+
+                                                ],
+                        "comparison_axes":  [
+
+                                            ],
+                        "novelty_terms":  [
+
+                                          ],
+                        "weaknesses":  [
+                                           "routing stability under scale",
+                                           "precision sensitivity in training",
+                                           "infrastructure bottlenecks",
+                                           "load balancing complexity",
+                                           "multi-token prediction alignment"
+                                       ],
+                        "experiments":  [
+
+                                        ],
+                        "modules":  [
+
+                                    ],
+                        "prototype":  ""
+                    },
+                    {
+                        "id":  "weakness_jamba",
+                        "source_titles":  [
+                                              "Jamba: A Hybrid Transformer-Mamba Language Model"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+
+                                                ],
+                        "comparison_axes":  [
+
+                                            ],
+                        "novelty_terms":  [
+
+                                          ],
+                        "weaknesses":  [
+                                           "ablation surface too large",
+                                           "interaction between attention, SSM, MoE unpredictable",
+                                           "harder hyperparameter tuning",
+                                           "hybrid layer ratios not well-studied"
+                                       ],
+                        "experiments":  [
+
+                                        ],
+                        "modules":  [
+
+                                    ],
+                        "prototype":  ""
+                    },
+                    {
+                        "id":  "weakness_command_r",
+                        "source_titles":  [
+                                              "Command R: Retrieval-Augmented Generation at Production Scale"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+
+                                                ],
+                        "comparison_axes":  [
+
+                                            ],
+                        "novelty_terms":  [
+
+                                          ],
+                        "weaknesses":  [
+                                           "opaque architecture details",
+                                           "retriever quality dependency",
+                                           "corpus impact",
+                                           "citation generation can fail",
+                                           "enterprise adaptation risks"
+                                       ],
+                        "experiments":  [
+
+                                        ],
+                        "modules":  [
+
+                                    ],
+                        "prototype":  ""
+                    },
+                    {
+                        "id":  "weakness_memgpt",
+                        "source_titles":  [
+                                              "MemGPT: Towards LLMs as Operating Systems"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+
+                                                ],
+                        "comparison_axes":  [
+
+                                            ],
+                        "novelty_terms":  [
+
+                                          ],
+                        "weaknesses":  [
+                                           "paging policy failure",
+                                           "self-management reliability",
+                                           "overhead from paging",
+                                           "context mismatch after paging",
+                                           "policy tuning difficulty"
+                                       ],
+                        "experiments":  [
+
+                                        ],
+                        "modules":  [
+
+                                    ],
+                        "prototype":  ""
+                    },
+                    {
+                        "id":  "weakness_autogen",
+                        "source_titles":  [
+                                              "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation"
+                                          ],
+                        "evidence_items":  1,
+                        "architecture_blocks":  [
+
+                                                ],
+                        "comparison_axes":  [
+
+                                            ],
+                        "novelty_terms":  [
+
+                                          ],
+                        "weaknesses":  [
+                                           "orchestration complexity",
+                                           "agent role design dependency",
+                                           "model reliability variance",
+                                           "conversation loop cost",
+                                           "verification burden"
+                                       ],
+                        "experiments":  [
+
+                                        ],
+                        "modules":  [
+
+                                    ],
+                        "prototype":  ""
+                    },
+                    {
+                        "id":  "experiment_mla_moe_retrieval_agent",
+                        "source_titles":  [
+                                              "DeepSeek-V3 Technical Report",
+                                              "Command R: Retrieval-Augmented Generation at Production Scale",
+                                              "MemGPT: Towards LLMs as Operating Systems"
+                                          ],
+                        "evidence_items":  3,
+                        "architecture_blocks":  [
+
+                                                ],
+                        "comparison_axes":  [
+
+                                            ],
+                        "novelty_terms":  [
+
+                                          ],
+                        "weaknesses":  [
+
+                                       ],
+                        "experiments":  [
+                                            "routing load balance across experts",
+                                            "retrieval-paging integration test",
+                                            "multi-task MoE capability",
+                                            "memory retrieval accuracy",
+                                            "agent collaboration overhead"
+                                        ],
+                        "modules":  [
+
+                                    ],
+                        "prototype":  ""
+                    },
+                    {
+                        "id":  "experiment_jamba_sequence_efficiency",
+                        "source_titles":  [
+                                              "Jamba: A Hybrid Transformer-Mamba Language Model",
+                                              "Mamba: Linear-Time Sequence Modeling with Selective State Spaces",
+                                              "Retentive Network: A Successor to Transformer for Large Language Models"
+                                          ],
+                        "evidence_items":  3,
+                        "architecture_blocks":  [
+
+                                                ],
+                        "comparison_axes":  [
+
+                                            ],
+                        "novelty_terms":  [
+
+                                          ],
+                        "weaknesses":  [
+
+                                       ],
+                        "experiments":  [
+                                            "context length scaling to 1M tokens",
+                                            "inference memory comparison",
+                                            "ablation of each hybrid component",
+                                            "hardware-aware performance test",
+                                            "quality vs efficiency tradeoff"
+                                        ],
+                        "modules":  [
+
+                                    ],
+                        "prototype":  ""
+                    },
+                    {
+                        "id":  "experiment_agent_memory_safety",
+                        "source_titles":  [
+                                              "MemGPT: Towards LLMs as Operating Systems",
+                                              "Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection",
+                                              "ReAct: Synergizing Reasoning and Acting in Language Models"
+                                          ],
+                        "evidence_items":  3,
+                        "architecture_blocks":  [
+
+                                                ],
+                        "comparison_axes":  [
+
+                                            ],
+                        "novelty_terms":  [
+
+                                          ],
+                        "weaknesses":  [
+
+                                       ],
+                        "experiments":  [
+                                            "memory poisoning resistance",
+                                            "paging failure recovery",
+                                            "retrieval critique accuracy",
+                                            "tool hallucination detection",
+                                            "safety violation rate in long loops"
+                                        ],
+                        "modules":  [
+
+                                    ],
+                        "prototype":  ""
+                    },
+                    {
+                        "id":  "prototype_mla_retrieval_moe_agent",
+                        "source_titles":  [
+                                              "DeepSeek-V3 Technical Report",
+                                              "Command R: Retrieval-Augmented Generation at Production Scale",
+                                              "Mixtral of Experts"
+                                          ],
+                        "evidence_items":  3,
+                        "architecture_blocks":  [
+                                                    "MLA attention",
+                                                    "MoE router",
+                                                    "retriever",
+                                                    "shared expert",
+                                                    "routed experts",
+                                                    "citation head"
+                                                ],
+                        "comparison_axes":  [
+
+                                            ],
+                        "novelty_terms":  [
+
+                                          ],
+                        "weaknesses":  [
+
+                                       ],
+                        "experiments":  [
+
+                                        ],
+                        "modules":  [
+                                        "MLA block",
+                                        "MoE with load balancer",
+                                        "dense retriever",
+                                        "citation verifier"
+                                    ],
+                        "prototype":  "class MLA_MoE_RAG(nn.Module):\n  def __init__(self, mla, moe, retriever):\n    self.mla = mla\n    self.moe = moe\n    self.retriever = retriever\n  def forward(self, query):\n    latent = self.mla(query)\n    routed = self.moe(latent)\n    docs = self.retriever.retrieve(query)\n    doc_emb = self.mla(docs)\n    return routed + doc_emb"
+                    },
+                    {
+                        "id":  "prototype_jamba_jepa_agent",
+                        "source_titles":  [
+                                              "Jamba: A Hybrid Transformer-Mamba Language Model",
+                                              "LLM-JEPA: Large Language Models Meet Joint Embedding Predictive Architectures",
+                                              "The Fugu Framework: An Open-Ended and Adaptive Framework for Collaborative AI Agents"
+                                          ],
+                        "evidence_items":  3,
+                        "architecture_blocks":  [
+                                                    "SSM block",
+                                                    "attention block",
+                                                    "JEPA head",
+                                                    "Fugu orchestrator",
+                                                    "action executor"
+                                                ],
+                        "comparison_axes":  [
+
+                                            ],
+                        "novelty_terms":  [
+
+                                          ],
+                        "weaknesses":  [
+
+                                       ],
+                        "experiments":  [
+
+                                        ],
+                        "modules":  [
+                                        "Mamba SSM",
+                                        "Multi-head attention",
+                                        "JEPA predictor",
+                                        "Fugu agent coordinator",
+                                        "tool interaction"
+                                    ],
+                        "prototype":  "class JambaJepaAgent:\n  def __init__(self, jamba, jepa, fugu):\n    self.jamba = jamba\n    self.jepa = jepa\n    self.fugu = fugu\n  def act(self, task):\n    h = self.jamba(task)\n    pred = self.jepa(h)\n    sub_agents = self.fugu.decompose(task, pred)\n    results = [agent.execute(sub_task) for agent, sub_task in sub_agents]\n    return self.jamba(results)"
+                    },
+                    {
+                        "id":  "prototype_edge_multimodal_adapter",
+                        "source_titles":  [
+                                              "LFM2 Technical Report: Efficient Mobile Foundation Models",
+                                              "Qwen-VL: A Versatile Vision-Language Model for Understanding, Localization, Text Reading, and Beyond",
+                                              "LoRA: Low-Rank Adaptation of Large Language Models"
+                                          ],
+                        "evidence_items":  3,
+                        "architecture_blocks":  [
+                                                    "mobile conv layers",
+                                                    "GQA attention",
+                                                    "vision encoder",
+                                                    "LoRA adapter",
+                                                    "fusion layer"
+                                                ],
+                        "comparison_axes":  [
+
+                                            ],
+                        "novelty_terms":  [
+
+                                          ],
+                        "weaknesses":  [
+
+                                       ],
+                        "experiments":  [
+
+                                        ],
+                        "modules":  [
+                                        "conv backbone",
+                                        "GQA head",
+                                        "vision transformer",
+                                        "LoRA adapter",
+                                        "cross-attention"
+                                    ],
+                        "prototype":  "class EdgeMultiModalAdapter(nn.Module):\n  def __init__(self, mobile_lm, vision_encoder, lora_rank=8):\n    self.mobile = mobile_lm\n    self.vision = vision_encoder\n    self.lora = LoRALinear(self.mobile.out_dim, lora_rank)\n    self.cross_attn = CrossAttention(128)\n  def forward(self, text, image):\n    t = self.mobile(text)\n    v = self.vision(image)\n    adapted = self.lora(t)\n    fused = self.cross_attn(adapted, v)\n    return self.mobile(fused)"
+                    }
+                ]
+}
